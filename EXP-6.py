@@ -27,5 +27,12 @@ sns.heatmap(confusion_matrix(y_test,y_pred),
             xticklabels=wine.target_names,
             yticklabels=wine.target_names)
 plt.show()
+sns.heatmap(confusion_matrix(y_test,y_pred),
+            annot=True, fmt='d',
+            xticklabels=wine.target_names,
+            yticklabels=wine.target_names)
+
+plt.savefig("exp6_output.png")
+print("Confusion matrix saved as exp6_output.png")
 #output
 #Accuracy: 0.7037037037037037

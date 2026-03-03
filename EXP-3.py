@@ -1,3 +1,6 @@
+import matplotlib
+matplotlib.use('Agg')
+
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -7,21 +10,24 @@ import matplotlib.pyplot as plt
 
 X, y = load_digits(return_X_y=True)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=23
+)
 
-model = RandomForestClassifier(random_state=23)
-model.fit(X_train, y_train)
+clf = RandomForestClassifier(random_state=23)
+clf.fit(X_train, y_train)
 
-y_pred = model.predict(X_test)
+y_pred = clf.predict(X_test)
 
 cm = confusion_matrix(y_test, y_pred)
 
-sns.heatmap(cm, annot=False, cmap="winter")
-plt.ylabel("Predicted")
-plt.xlabel("Actual")
-plt.title("Multi-Class Confusion Matrix")
-plt.show()
+print("Confusion Matrix:\n")
+print(cm)
 
-print("Accuracy:", accuracy_score(y_test, y_pred))
-#output
-#Accuracy: 0.9822222222222222
+print("\nAccuracy:", accuracy_score(y_test, y_pred))
+
+plt.figure(figsize=(8,6))
+sns.heatmap(cm, cmap="winter", annot=False)
+plt.title("Confusion Matrix")
+plt.savefig("exp3_output.png")
+print("Heatmap saved as exp3_output.png")
